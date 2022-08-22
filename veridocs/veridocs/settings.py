@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import dotenv_values
+
+db_config = dotenv_values(".env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,10 +80,11 @@ WSGI_APPLICATION = 'veridocs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'veridocs$veridocs_database',
-        'USER': 'veridocs',
-        'PASSWORD': 'Veridocs@reignsys',
-        'HOST': 'veridocs.mysql.pythonanywhere-services.com'
+        'NAME': db_config['DATABASE_NAME'],
+        'USER': db_config['DATABASE_USER'],
+        'PASSWORD': db_config['DATABASE_PASSWORD'],
+        'HOST': db_config['HOST'],
+        'PORT': '3306'
     }
 }
 
