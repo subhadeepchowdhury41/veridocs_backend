@@ -6,3 +6,6 @@ class Form(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     data = models.JSONField()
     createdBy = models.TextField(max_length=30)
+
+    def __str__(self):
+        return self.name
