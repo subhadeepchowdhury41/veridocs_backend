@@ -8,6 +8,8 @@ django = "*"
 mysqlclient = "*"
 python-dotenv = "*"
 djangorestframework = "*"
+pylint = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
