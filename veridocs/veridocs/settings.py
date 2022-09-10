@@ -1,7 +1,8 @@
+import os
 from pathlib import Path
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 
-db_config = dotenv_values(".env")
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,10 +79,10 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': db_config['DATABASE_NAME'],
-        'USER': db_config['DATABASE_USER'],
-        'PASSWORD': db_config['DATABASE_PASSWORD'],
-        'HOST': db_config['HOST'],
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('HOST'),
         'PORT': '3306'
     }
 }

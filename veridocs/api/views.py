@@ -16,9 +16,12 @@ def getAllForms(request):
 
 @api_view(['GET'])
 def getForm(request, pk):
-    form = Form.objects.get(id=pk)
-    serializer = FormSerializer(form, many=False)
-    return Response(serializer.data)
+    try:
+        form = Form.objects.get(id=pk)
+        serializer = FormSerializer(form, many=False)
+        return Response(serializer.data)
+    except exceptions.ObjectDoesNotExist:
+        return Response({"result": "No forms with given ID",}, status=404)
 
 @api_view(['POST'])
 def addForm(request):
@@ -34,7 +37,7 @@ def deleteForm(request, pk):
         form.delete()
         return Response({"result": "Deleted Successfully"})
     except exceptions.ObjectDoesNotExist:
-        return Response({"result": "No forms with given ID",}, status=505)
+        return Response({"result": "No forms with given ID",}, status=404)
 
 @api_view(['PUT'])
 def updateData(request, pk):
