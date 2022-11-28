@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from django.core import exceptions
 from .serializers import FormSerializer, TemplateSerializer
-from .models import Form, Template
+from .models import Form, Template, User
 
 # Create your views here.
 
@@ -112,3 +111,11 @@ def updateTemplateData(request, pk):
         return Response({"result": "No Form with given ID"})
     except exceptions.BadRequest:
         return Response({"result": "Page not found"})
+
+@api_view(['POST'])
+def getUniqueId(request, pk):
+    if (User.objects.filter(uid=pk).exists()):
+        return Response({'id': User.objects.get(uid=pk).id})
+    else:
+        user = User.objects.create(uid=pk)
+        return Response({'id': user.id});

@@ -12,5 +12,6 @@ urlpatterns = [
     path('template/create', views.addTemplate, name='add-template'),
     path('template/update/<str:pk>', views.updateTemplateData, name='update-template'),
     path('template/delete/<str:pk>', views.deleteTemplate, name='delete-template'),
-    path('template/<str:pk>', views.getTemplate, name='get-template')
+    path('template/<str:pk>', views.getTemplate, name='get-template'),
+    path('user/<str:pk>', views.getUniqueId, name='get-unique-id'),
 ]
