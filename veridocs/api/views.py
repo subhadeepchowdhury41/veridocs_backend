@@ -5,13 +5,12 @@ from django.core import exceptions
 from .serializers import FormSerializer, TemplateSerializer
 from .models import Form, Template, User
 
-# Create your views here.
-
 @api_view(['GET'])
 def getAllForms(request):
     forms = Form.objects.all()
     serializer = FormSerializer(forms, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getForm(request, pk):
@@ -20,7 +19,8 @@ def getForm(request, pk):
         serializer = FormSerializer(form, many=False)
         return Response(serializer.data)
     except exceptions.ObjectDoesNotExist:
-        return Response({"result": "No forms with given ID",}, status=404)
+        return Response({"result": "No forms with given ID", }, status=404)
+
 
 @api_view(['POST'])
 def addForm(request):
@@ -31,6 +31,7 @@ def addForm(request):
     else:
         return Response({"result": "Not valid data", "data": serializer.data}, status=404)
 
+
 @api_view(['DELETE'])
 def deleteForm(request, pk):
     try:
@@ -38,7 +39,8 @@ def deleteForm(request, pk):
         form.delete()
         return Response({"result": "Deleted Successfully"})
     except exceptions.ObjectDoesNotExist:
-        return Response({"result": "No forms with given ID",}, status=404)
+        return Response({"result": "No forms with given ID", }, status=404)
+
 
 @api_view(['PUT'])
 def updateData(request, pk):
@@ -46,7 +48,6 @@ def updateData(request, pk):
         form = Form.objects.get(id=pk)
         serializer = FormSerializer(form, data=request.data)
         if not serializer.is_valid():
-            print("...")
             return Response(serializer.errors, status=404)
         else:
             serializer.save()
@@ -63,11 +64,13 @@ def getAllTemplates(request):
     serializer = FormSerializer(templates, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 def getTemplatesByCompany(request, pk):
     templates = Template.objects.all().filter(agency=pk)
     serializer = TemplateSerializer(templates, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getTemplate(request, pk):
@@ -76,7 +79,8 @@ def getTemplate(request, pk):
         serializer = TemplateSerializer(template, many=False)
         return Response(serializer.data)
     except exceptions.ObjectDoesNotExist:
-        return Response({"result": "No Temaplates with given ID",}, status=404)
+        return Response({"result": "No Temaplates with given ID", }, status=404)
+
 
 @api_view(['POST'])
 def addTemplate(request):
@@ -87,6 +91,7 @@ def addTemplate(request):
     else:
         return Response({"result": "Not valid data", "data": serializer.data}, status=404)
 
+
 @api_view(['DELETE'])
 def deleteTemplate(request, pk):
     try:
@@ -94,7 +99,8 @@ def deleteTemplate(request, pk):
         template.delete()
         return Response({"result": "Deleted Successfully"})
     except exceptions.ObjectDoesNotExist:
-        return Response({"result": "No Templates with given ID",}, status=404)
+        return Response({"result": "No Templates with given ID", }, status=404)
+
 
 @api_view(['PUT'])
 def updateTemplateData(request, pk):
@@ -112,10 +118,11 @@ def updateTemplateData(request, pk):
     except exceptions.BadRequest:
         return Response({"result": "Page not found"})
 
+
 @api_view(['POST'])
 def getUniqueId(request, pk):
     if (User.objects.filter(uid=pk).exists()):
         return Response({'id': User.objects.get(uid=pk).id})
     else:
         user = User.objects.create(uid=pk)
-        return Response({'id': user.id});
+        return Response({'id': user.id})
